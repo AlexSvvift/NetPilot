@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NetPilot</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">N</span><span>NetPilot</span></div>
+      <div class="topbar-meta"><span class="pulse"></span><span id="service-status">Сервис проверяется</span></div>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">SERVER & VPN OBSERVABILITY</p>
+          <h1>Состояние сети<br /><span>на одном экране</span></h1>
+          <p class="hero-copy">Проверяй доступность сайтов, TCP-портов и VPN endpoint-ов без лишней ручной работы.</p>
+        </div>
+        <div class="hero-orbit" aria-hidden="true"><span></span><i></i><b></b></div>
+      </section>
+
+      <section class="stats" aria-label="Сводка мониторинга">
+        <article class="stat-card"><span class="stat-label">Всего целей</span><strong id="total-count">0</strong><span class="stat-note">в мониторинге</span></article>
+        <article class="stat-card stat-up"><span class="stat-label">Доступны</span><strong id="up-count">0</strong><span class="stat-note">последняя проверка</span></article>
+        <article class="stat-card stat-down"><span class="stat-label">Недоступны</span><strong id="down-count">0</strong><span class="stat-note">требуют внимания</span></article>
+        <article class="stat-card stat-muted"><span class="stat-label">Без проверки</span><strong id="never-count">0</strong><span class="stat-note">новые цели</span></article>
+      </section>
+
+      <section class="workspace">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">MONITORING TARGETS</p>
+            <h2>Цели проверки</h2>
+          </div>
+          <button id="refresh-button" class="button button-quiet" type="button">Обновить</button>
+        </div>
+
+        <div id="notice" class="notice" role="status" hidden></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Цель</th><th>Тип</th><th>Адрес</th><th>Состояние</th><th>Задержка</th><th>Действия</th></tr></thead>
+            <tbody id="targets-body"><tr><td colspan="6" class="empty">Загрузка целей...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="add-section">
+        <div class="section-heading">
+          <div><p class="eyebrow">NEW TARGET</p><h2>Добавить проверку</h2></div>
+          <span class="api-badge">API online</span>
+        </div>
+        <form id="target-form" class="target-form">
+          <label>Название<input name="name" placeholder="VPN сервер" required maxlength="120" /></label>
+          <label>Тип<select name="kind" id="kind-field"><option value="http">HTTP</option><option value="tcp">TCP</option><option value="udp">UDP</option></select></label>
+          <label id="url-field">URL<input name="url" placeholder="https://example.com" /></label>
+          <label id="host-field" hidden>Хост<input name="host" placeholder="81.19.141.166" /></label>
+          <label id="port-field" hidden>Порт<input name="port" type="number" min="1" max="65535" placeholder="51821" /></label>
+          <label>Интервал, сек.<input name="interval_seconds" type="number" min="10" value="60" required /></label>
+          <button class="button button-primary" type="submit">Добавить цель</button>
+        </form>
+      </section>
+    </main>
+
+    <template id="target-row-template">
+      <tr>
+        <td><div class="target-name"></div><div class="target-id"></div></td>
+        <td><span class="kind-pill"></span></td>
+        <td class="target-address"></td>
+        <td><span class="status-pill"></span></td>
+        <td class="latency"></td>
+        <td><div class="row-actions"><button class="text-button check-button" type="button">Проверить</button><button class="text-button danger delete-button" type="button">Удалить</button></div></td>
+      </tr>
+    </template>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
